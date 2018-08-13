@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.i("AULA", "Invocou o metodo onSaveInstanceState");
+        Log.i("AULA", "Invocou o metodo onSaveInstanceState teste");
+
     }
 
     @Override
