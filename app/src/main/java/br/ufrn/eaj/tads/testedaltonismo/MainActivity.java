@@ -25,14 +25,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.i("AULA", "Invocou o metodo onSaveInstanceState teste");
+        Log.i("AULA", "Invocou o metodo onSaveInstanceState");
 
+        outState.putString("resposta1", r1);
+        outState.putString("resposta2", r2);
+        outState.putString("resposta3", r3);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         Log.i("AULA", "Invocou o metodo onRestoreInstanceState");
+
+        r1 = savedInstanceState.getString("resposta1");
+        r2 = savedInstanceState.getString("resposta2");
+        r3 = savedInstanceState.getString("resposta3");
+
+        TextView tv1 = findViewById(R.id.resposta1);
+        TextView tv2 = findViewById(R.id.resposta2);
+        TextView tv3 = findViewById(R.id.resposta3);
+
+        tv1.setText(r1);
+        tv2.setText(r2);
+        tv3.setText(r3);
     }
 
     public void metodoCliqueTesteHum(View v){
