@@ -1,9 +1,11 @@
 package br.ufrn.eaj.tads.testedaltonismo;
 
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,40 +16,26 @@ public class MainActivity extends AppCompatActivity {
     private static final int TESTE_DOIS = 56;
     private static final int TESTE_TRES = 57;
 
-    String r1, r2, r3;
+    public static class MyViewModel extends ViewModel{
+        private String r1, r2, r3;
+    }
+
+    MyViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.i("AULA", "Invocou o metodo onSaveInstanceState");
-
-        outState.putString("resposta1", r1);
-        outState.putString("resposta2", r2);
-        outState.putString("resposta3", r3);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        Log.i("AULA", "Invocou o metodo onRestoreInstanceState");
-
-        r1 = savedInstanceState.getString("resposta1");
-        r2 = savedInstanceState.getString("resposta2");
-        r3 = savedInstanceState.getString("resposta3");
+        mViewModel = ViewModelProviders.of(this).get(MyViewModel.class);
 
         TextView tv1 = findViewById(R.id.resposta1);
         TextView tv2 = findViewById(R.id.resposta2);
         TextView tv3 = findViewById(R.id.resposta3);
 
-        tv1.setText(r1);
-        tv2.setText(r2);
-        tv3.setText(r3);
+        tv1.setText(mViewModel.r1);
+        tv2.setText(mViewModel.r2);
+        tv3.setText(mViewModel.r3);
     }
 
     public void metodoCliqueTesteHum(View v){
@@ -77,9 +65,11 @@ public class MainActivity extends AppCompatActivity {
     public void verificar(View v){
         TextView tv = findViewById(R.id.resultado_teste);
 
-        if(r1 == null || r2 == null || r3 == null){
+
+
+        if( mViewModel.r1 == null || mViewModel.r2 == null || mViewModel.r3 == null){
             Toast.makeText(this, "Responda os testes.", Toast.LENGTH_SHORT).show();
-        }else if (r1.equals("2") && r2.equals("29") && r3.equals("74")){
+        }else if (mViewModel.r1.equals("2") && mViewModel.r2.equals("29") && mViewModel.r3.equals("74")){
             tv.setText("Tudo Ok!");
         }else{
             tv.setText("Procure o médico");
@@ -101,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
                     String resposta = data.getStringExtra("resposta");
                     tv.setText(resposta);
-                    r1 = resposta;
+                    mViewModel.r1 = resposta;
                     break;
                 }
             }case TESTE_DOIS:{
@@ -110,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
                     String resposta = data.getStringExtra("resposta");
                     tv.setText(resposta);
-                    r2 = resposta;
+                    mViewModel.r2 = resposta;
                     break;
                 }
             }case TESTE_TRES:{
@@ -119,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
                     String resposta = data.getStringExtra("resposta");
                     tv.setText(resposta);
-                    r3 = resposta;
+                    mViewModel.r3 = resposta;
                     break;
                 }
             }
